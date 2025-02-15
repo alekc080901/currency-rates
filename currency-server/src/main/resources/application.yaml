@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: currency-server
+
+server:
+  port: 8080
+  address: 127.0.0.1
+
+app:
+  currency:
+    exchange-rate:
+      - from: USD
+        to: RUB
+        value: 90.0
+      - from: RUB
+        to: USD
+        value: 0.01111111
+      - from: RUB
+        to: CNY
+        value: 0.07
