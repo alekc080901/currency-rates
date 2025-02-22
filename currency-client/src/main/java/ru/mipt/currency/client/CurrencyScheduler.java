@@ -17,7 +17,7 @@ public class CurrencyScheduler {
         currencyAdapter.getCurrency("USDRUB")
                 .ifPresentOrElse(
                         System.out::println,
-                        () -> System.out.println("Can't reach the server")
+                        () -> System.out.println("Can't get respsonse from the server")
                 );
         }
 }

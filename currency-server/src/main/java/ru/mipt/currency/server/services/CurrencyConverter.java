@@ -1,13 +1,13 @@
 package ru.mipt.currency.server.services;
 
 import org.springframework.stereotype.Service;
-import ru.mipt.currency.server.configuration.CurrencyConfiguration;
 import ru.mipt.currency.server.models.ExchangeRate;
 import ru.mipt.currency.server.utils.MathUtils;
 import ru.mipt.currency.server.utils.RandomUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class CurrencyConverter {
@@ -15,23 +15,20 @@ public class CurrencyConverter {
     private static final double RANDOM_DEVIATION = 0.1;
     private static final int CURRENCY_PRECISION = 3;
 
-    private final Map<String, Map<String, Double>> exchangeRates;
+    private final Map<String, Double> exchangeRates;
 
     public CurrencyConverter(CurrencyConfiguration currencyConfiguration) {
         this.exchangeRates = constructExchangeRate(currencyConfiguration);
     }
 
-    private Map<String, Map<String, Double>> constructExchangeRate(CurrencyConfiguration currencyConfiguration) {
-        Map<String, Map<String, Double>> exchangeRates = new HashMap<>();
-        for (ExchangeRate exchangeRate : currencyConfiguration.getExchangeRate()) {
-            exchangeRates.computeIfAbsent(exchangeRate.getFrom(), k -> new HashMap<>());
-            exchangeRates.get(exchangeRate.getFrom()).put(exchangeRate.getTo(), exchangeRate.getValue());
-        }
-        return exchangeRates;
+    private Map<String, Double> constructExchangeRate(CurrencyConfiguration currencyConfiguration) {
+        return currencyConfiguration.getExchangeRate()
+                .stream()
+                .collect(Collectors.toMap(ExchangeRate::getCcyPair, ExchangeRate::getValue));
     }
 
-    public double calculate(String from, String to) {
-        double rate = RandomUtils.deviate(exchangeRates.get(from).get(to), RANDOM_DEVIATION);
+    public double calculate(String ccyPair) {
+        double rate = RandomUtils.deviate(exchangeRates.get(ccyPair), RANDOM_DEVIATION);
         return MathUtils.round(rate, CURRENCY_PRECISION);
     }
 }

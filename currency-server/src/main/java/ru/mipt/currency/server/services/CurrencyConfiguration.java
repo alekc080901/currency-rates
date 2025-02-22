@@ -1,4 +1,4 @@
-package ru.mipt.currency.server.configuration;
+package ru.mipt.currency.server.services;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

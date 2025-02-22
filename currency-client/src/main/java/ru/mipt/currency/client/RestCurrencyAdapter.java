@@ -19,11 +19,11 @@ public class RestCurrencyAdapter implements CurrencyAdapter {
 
     @Override
     public Optional<ExchangeRate> getCurrency(String currencyCode) {
-        String url = String.format("%s/rates/%s-%s", serverUrl,
-                currencyCode.substring(0, 3), currencyCode.substring(3, 6));
+        String url = String.format("%s/rates/%s", serverUrl, currencyCode);
         try {
             return Optional.ofNullable(restTemplate.getForObject(url, ExchangeRate.class));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return Optional.empty();
         }
     }

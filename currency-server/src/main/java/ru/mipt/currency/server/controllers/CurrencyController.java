@@ -15,9 +15,9 @@ public class CurrencyController {
         this.converter = converter;
     }
 
-    @GetMapping("/rates/{from}-{to}")
-    public ExchangeRate convertCurrency(@PathVariable String from, @PathVariable String to) {
-        double rate = converter.calculate(from, to);
-        return new ExchangeRate(from, to, rate);
+    @GetMapping("/rates/{ccyPair}")
+    public ExchangeRate convertCurrency(@PathVariable String ccyPair) {
+        double rate = converter.calculate(ccyPair);
+        return new ExchangeRate(ccyPair, rate);
     }
 }

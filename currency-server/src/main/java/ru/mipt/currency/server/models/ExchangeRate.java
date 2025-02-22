@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExchangeRate {
-    private String from;
-    private String to;
+    private String ccyPair;
     private double value;
 }

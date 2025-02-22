@@ -9,12 +9,9 @@ server:
 app:
   currency:
     exchange-rate:
-      - from: USD
-        to: RUB
+      - ccy-pair: USDRUB
         value: 90.0
-      - from: RUB
-        to: USD
+      - ccy-pair: RUBUSD
         value: 0.01111111
-      - from: RUB
-        to: CNY
+      - ccy-pair: RUBCNY
         value: 0.07
