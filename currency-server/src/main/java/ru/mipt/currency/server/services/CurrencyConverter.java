@@ -1,12 +1,11 @@
 package ru.mipt.currency.server.services;
 
 import org.springframework.stereotype.Service;
+import ru.mipt.currency.server.Utils;
 import ru.mipt.currency.server.models.ExchangeRate;
-import ru.mipt.currency.server.utils.MathUtils;
-import ru.mipt.currency.server.utils.RandomUtils;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,8 +26,14 @@ public class CurrencyConverter {
                 .collect(Collectors.toMap(ExchangeRate::getCcyPair, ExchangeRate::getValue));
     }
 
-    public double calculate(String ccyPair) {
-        double rate = RandomUtils.deviate(exchangeRates.get(ccyPair), RANDOM_DEVIATION);
-        return MathUtils.round(rate, CURRENCY_PRECISION);
+    public Double calculate(String ccyPair) {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Waiting was interrupted", e);
+        }
+        return Optional.ofNullable(exchangeRates.get(ccyPair))
+                .map(rate -> Utils.deviate(rate, RANDOM_DEVIATION))
+                .orElse(-1.0);
     }
 }
