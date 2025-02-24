@@ -1,11 +1,7 @@
 package ru.mipt.currency.client;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.mipt.currency.server.models.ExchangeRate;
-
-import java.util.Optional;
 
 @Component
 public class CurrencyProfiler {
@@ -16,13 +12,12 @@ public class CurrencyProfiler {
         this.currencyAdapter = currencyAdapter;
     }
 
-//    @Scheduled(fixedRate = 5000)
-//    private void getUsdRubRate(@Value("${app.run-async}") boolean runAsync) {
-//        Optional<ExchangeRate> usdrub = runAsync ? currencyAdapter.getCurrencyAsync("USDRUB").join() :
-//                currencyAdapter.getCurrencySync("USDRUB");
-//        usdrub.ifPresentOrElse(
-//                System.out::println,
-//                () -> System.out.println("Can't get respsonse from the server")
-//        );
-//    }
+    @Scheduled(fixedRate = 5000)
+    private void getUsdRubRate() {
+        currencyAdapter.getCurrency("USDRUB")
+                .doOnError(error -> System.out.println("Can't get response from the server: " +
+                        error.getMessage()))
+                .blockOptional()
+                .ifPresent(System.out::println);
+    }
 }

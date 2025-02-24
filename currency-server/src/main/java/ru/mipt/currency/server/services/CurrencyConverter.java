@@ -34,6 +34,7 @@ public class CurrencyConverter {
         }
         return Optional.ofNullable(exchangeRates.get(ccyPair))
                 .map(rate -> Utils.deviate(rate, RANDOM_DEVIATION))
+                .map(v -> Utils.round(v, CURRENCY_PRECISION))
                 .orElse(-1.0);
     }
 }

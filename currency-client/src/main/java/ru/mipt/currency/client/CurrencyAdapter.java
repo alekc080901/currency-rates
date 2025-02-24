@@ -8,6 +8,5 @@ import java.util.concurrent.CompletableFuture;
 
 public interface CurrencyAdapter {
 
-    ExchangeRate getCurrencySync(String currencyCode);
-    Mono<ExchangeRate> getCurrencyAsync(String currencyCode);
+    Mono<ExchangeRate> getCurrency(String currencyCode);
 }

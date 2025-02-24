@@ -14,27 +14,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.concurrent.Executor;
 
 @Configuration
-@EnableAsync
 public class ClientConfiguration {
-
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 
     @Bean
     public WebClient webClient() {
         return WebClient.create();
-    }
-
-    @ConditionalOnProperty(value = "app.run-async")
-    public Executor asyncExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(1);
-        executor.setMaxPoolSize(10);
-        executor.setQueueCapacity(20);
-        executor.initialize();
-        return executor;
     }
 
     @Bean
