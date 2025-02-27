@@ -17,6 +17,11 @@ import java.util.concurrent.Executor;
 public class ClientConfiguration {
 
     @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
     public WebClient webClient() {
         return WebClient.create();
     }

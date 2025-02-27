@@ -6,18 +6,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class CurrencyProfiler {
 
-    private final CurrencyAdapter currencyAdapter;
+    private final ExchangeRateProvider exchangeRateProvider;
 
-    public CurrencyProfiler(CurrencyAdapter currencyAdapter) {
-        this.currencyAdapter = currencyAdapter;
+    public CurrencyProfiler(ExchangeRateProvider exchangeRateProvider) {
+        this.exchangeRateProvider = exchangeRateProvider;
     }
 
-    @Scheduled(fixedRate = 5000)
-    private void getUsdRubRate() {
-        currencyAdapter.getCurrency("USDRUB")
-                .doOnError(error -> System.out.println("Can't get response from the server: " +
-                        error.getMessage()))
-                .blockOptional()
-                .ifPresent(System.out::println);
-    }
+//    @Scheduled(fixedRate = 5000)
+//    private void getUsdRubRate() {
+//        exchangeRateProvider.getCurrency("USDRUB")
+//                .doOnError(error -> System.out.println("Can't get response from the server: " +
+//                        error.getMessage()))
+//                .blockOptional()
+//                .ifPresent(System.out::println);
+//    }
 }
