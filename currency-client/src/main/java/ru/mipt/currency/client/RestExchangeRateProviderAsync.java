@@ -19,7 +19,6 @@ public class RestExchangeRateProviderAsync implements ExchangeRateProviderAsync 
 
     @Override
     public void processRate(String ccyPair, ExchangeRateReceiver receiver) {
-        mockActivity();
         String url = String.format("%s/rates?ccyPair=%s", serverUrl, ccyPair);
         try {
             webClient
@@ -31,16 +30,6 @@ public class RestExchangeRateProviderAsync implements ExchangeRateProviderAsync 
                     .subscribe(receiver::receive);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        } finally {
-            mockActivity();
-        }
-    }
-
-    private static void mockActivity() {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException("Sleep interrupted", e);
         }
     }
 }

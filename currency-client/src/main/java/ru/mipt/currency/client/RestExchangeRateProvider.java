@@ -20,7 +20,6 @@ public class RestExchangeRateProvider implements ExchangeRateProvider {
 
     @Override
     public Optional<ExchangeRate> getRate(String ccyPair) {
-        mockActivity();
         String url = String.format("%s/rates?ccyPair=%s", serverUrl, ccyPair);
         try {
             return Optional.ofNullable(restTemplate.getForObject(url, ExchangeRate[].class))
@@ -28,16 +27,6 @@ public class RestExchangeRateProvider implements ExchangeRateProvider {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return Optional.empty();
-        } finally {
-            mockActivity();
-        }
-    }
-
-    private static void mockActivity() {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException("Sleep interrupted", e);
         }
     }
 }

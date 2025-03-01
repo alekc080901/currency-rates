@@ -1,5 +1,6 @@
 package ru.mipt.currency.server.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.mipt.currency.server.Utils;
 import ru.mipt.currency.server.models.ExchangeRate;
@@ -9,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CurrencyConverter {
 
     private static final double RANDOM_DEVIATION = 0.1;

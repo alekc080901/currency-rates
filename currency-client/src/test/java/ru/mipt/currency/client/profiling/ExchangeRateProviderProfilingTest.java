@@ -1,39 +1,36 @@
 package ru.mipt.currency.client.profiling;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import ru.mipt.currency.client.ExchangeRateProvider;
 import ru.mipt.currency.client.ExchangeRateProviderAsync;
-import ru.mipt.currency.client.RestExchangeRateProvider;
-import ru.mipt.currency.client.RestExchangeRateProviderAsync;
 import ru.mipt.currency.server.Utils;
 
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
+@SpringBootTest
 class ExchangeRateProviderProfilingTest {
 
     private static final int MEASUREMENT_TIME_SECONDS = 5;
-    private static final String SERVER_URL = "http://127.0.0.1:8080";
 
+    @Autowired
     private ExchangeRateProvider adapterSync;
+    @Autowired
     private ExchangeRateProviderAsync adapterAsync;
-
-    @BeforeEach
-    void setUp() {
-        adapterSync = new RestExchangeRateProvider(new RestTemplate(), SERVER_URL);
-        adapterAsync = new RestExchangeRateProviderAsync(WebClient.create(), SERVER_URL);
-    }
 
     @Test
     void measureGetCurrencyOnSync() {
-        measure((func) -> adapterSync.getRate("USDRUB"),
+        measure((func) -> {
+                    adapterSync.getRate("USDRUB");
+                    func.run();
+                },
                 "Measuring Sync...");
     }
 
@@ -49,8 +46,11 @@ class ExchangeRateProviderProfilingTest {
         LocalTime start = LocalTime.now();
         while (LocalTime.now().isBefore(start.plusSeconds(MEASUREMENT_TIME_SECONDS))) {
             long startTime = System.nanoTime();
-            measuredOperation.accept(() -> executions.add(System.nanoTime() - startTime));
-            executions.add(System.nanoTime() - startTime);
+            mockActivity();
+            measuredOperation.accept(() -> {
+                executions.add(System.nanoTime() - startTime);
+            });
+            mockActivity();
         }
         printReport(executions, Duration.between(start, LocalTime.now()));
     }
@@ -68,5 +68,13 @@ class ExchangeRateProviderProfilingTest {
         );
         System.out.println("Throughput: " + Utils.round(((double) measurements.size()) / executionTime, 3));
         System.out.println("===========================\n");
+    }
+
+    private void mockActivity() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Sleep interrupted", e);
+        }
     }
 }
