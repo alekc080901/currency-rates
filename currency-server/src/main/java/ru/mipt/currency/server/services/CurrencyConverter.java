@@ -3,7 +3,7 @@ package ru.mipt.currency.server.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.mipt.currency.server.Utils;
-import ru.mipt.currency.server.models.ExchangeRate;
+import ru.mipt.common.dto.ExchangeRate;
 
 import java.util.Map;
 import java.util.Optional;

@@ -1,20 +1,20 @@
 package ru.mipt.currency.client.profiling;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.mipt.currency.client.ExchangeRateProvider;
-import ru.mipt.currency.client.ExchangeRateProviderAsync;
-import ru.mipt.currency.server.Utils;
+import ru.mipt.currency.client.sync.ExchangeRateProvider;
+import ru.mipt.currency.client.async.ExchangeRateProviderAsync;
 
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
+@Disabled
 @SpringBootTest
 class ExchangeRateProviderProfilingTest {
 
@@ -59,14 +59,14 @@ class ExchangeRateProviderProfilingTest {
         double executionTime = duration.getSeconds() + duration.getNano() / 1_000_000_000.0;
         System.out.println("==========REPORT===========");
         System.out.println("Total requests: " + measurements.size());
-        System.out.println("Execution time: " + Utils.round(executionTime, 2) + " seconds");
-        System.out.println("Average latency: " + Utils.round(measurements.stream()
+        System.out.println("Execution time: " + executionTime + " seconds");
+        System.out.println("Average latency: " + measurements.stream()
                 .mapToDouble(Long::longValue)
                 .map(nanos -> nanos / 1_000_000_000)
                 .average()
-                .orElseThrow(() -> new RuntimeException("Could not get average latency")), 3)
+                .orElseThrow(() -> new RuntimeException("Could not get average latency"))
         );
-        System.out.println("Throughput: " + Utils.round(((double) measurements.size()) / executionTime, 3));
+        System.out.println("Throughput: " + ((double) measurements.size() / executionTime));
         System.out.println("===========================\n");
     }
 

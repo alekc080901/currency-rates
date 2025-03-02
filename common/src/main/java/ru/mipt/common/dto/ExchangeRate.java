@@ -1,4 +1,4 @@
-package ru.mipt.currency.server.models;
+package ru.mipt.common.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

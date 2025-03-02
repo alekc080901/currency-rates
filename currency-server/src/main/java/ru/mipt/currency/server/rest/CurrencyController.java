@@ -1,10 +1,9 @@
 package ru.mipt.currency.server.rest;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.mipt.currency.server.models.ExchangeRate;
+import ru.mipt.common.dto.ExchangeRate;
 import ru.mipt.currency.server.services.CurrencyConverter;
 
 import java.util.Collection;

@@ -1,10 +1,8 @@
-package ru.mipt.currency.client;
+package ru.mipt.currency.client.async;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.mipt.currency.server.models.ExchangeRate;
-
-import java.util.Optional;
+import ru.mipt.common.dto.ExchangeRate;
 
 @Component
 public class RestExchangeRateProviderAsync implements ExchangeRateProviderAsync {

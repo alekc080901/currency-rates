@@ -2,6 +2,11 @@ spring:
   application:
     name: currency-client
 
+eureka:
+  client:
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:8761/eureka}
 
 app:
   currency:
