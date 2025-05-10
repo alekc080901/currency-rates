@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: currency-client
+
+eureka:
+  client:
+    register-with-eureka: false
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://127.0.0.1:8761/eureka}
+
+app:
+  currency:
+    port: 8080
+    address: 127.0.0.1
+
+server:
+  port: 8081
