@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: currency-server
+
+server:
+  port: 8080
+  address: 127.0.0.1
+
+app:
+  currency:
+    exchange-rate:
+      - ccy-pair: USDRUB
+        value: 90.0
+      - ccy-pair: RUBUSD
+        value: 0.01111111
+      - ccy-pair: RUBCNY
+        value: 0.07
